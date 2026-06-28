@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VillaNova — Agenda culturel</title>
+  <meta name="description" content="Découvrez les événements culturels de votre ville avec VillaNova." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Compiler styles.scss → styles.css avec votre outil préféré (Sass, Vite, Webpack…) -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+  <!-- Accessibilité : skip link -->
+  <a class="skip-link" href="#main-content">Aller au contenu principal</a>
+
+  <!-- ARIA live region -->
+  <div id="aria-announcer" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ── Header ── -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="#" class="site-logo" onclick="showPage('home'); return false;" aria-label="VillaNova — Retour à l'accueil">
+        Villa<span>Nova</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigation principale">
+        <a href="#" onclick="showPage('home'); return false;" id="nav-home" aria-current="page">Agenda</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── Page : liste des événements ── -->
+  <div id="page-home" class="page-wrapper active" role="main" id="main-content">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__inner">
+        <p class="hero__eyebrow" aria-hidden="true">Agenda culturel</p>
+        <h1 class="hero__title" id="hero-title">
+          Découvrez les événements<br>près de chez vous
+        </h1>
+        <p class="hero__subtitle">
+          Concerts, expositions, spectacles… VillaNova centralise l'agenda culturel de votre territoire.
+        </p>
+      </div>
+    </section>
+
+    <div class="filters" role="region" aria-label="Filtrer les événements">
+      <div class="filters__inner">
+        <span class="filters__label" id="filter-label">Filtrer :</span>
+        <div role="group" aria-labelledby="filter-label" style="display:flex;gap:0.5rem;flex-wrap:nowrap;">
+          <button class="filter-btn" data-filter="all"         aria-pressed="true"  onclick="setFilter(this, 'all')">Tout</button>
+          <button class="filter-btn" data-filter="concert"     aria-pressed="false" onclick="setFilter(this, 'concert')">Concerts</button>
+          <button class="filter-btn" data-filter="expo"        aria-pressed="false" onclick="setFilter(this, 'expo')">Expositions</button>
+          <button class="filter-btn" data-filter="spectacle"   aria-pressed="false" onclick="setFilter(this, 'spectacle')">Spectacles</button>
+          <button class="filter-btn" data-filter="jeune public" aria-pressed="false" onclick="setFilter(this, 'jeune public')">Jeune public</button>
+          <button class="filter-btn" data-filter="atelier"     aria-pressed="false" onclick="setFilter(this, 'atelier')">Ateliers</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="events-section" aria-labelledby="events-heading" aria-busy="true" id="events-section">
+      <h2 class="events-section__heading" id="events-heading">Événements à venir</h2>
+      <div id="events-container">
+        <!-- Skeleton de chargement -->
+        <div class="skeleton-grid" aria-hidden="true">
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- end page-home -->
+
+  <!-- ── Page : fiche détail ── -->
+  <div id="page-detail" class="page-wrapper" role="main">
+
+    <div class="detail-back">
+      <a href="#" class="back-btn" onclick="goBack(); return false;" id="back-btn" aria-label="Retour à la liste des événements">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Retour à la liste
+      </a>
+    </div>
+
+    <div id="detail-hero-img" class="detail-hero" aria-hidden="true"></div>
+
+    <main id="detail-main" class="detail-content" aria-busy="true">
+      <div class="status-message">
+        <div class="spinner" role="status"><span class="sr-only">Chargement de l'événement…</span></div>
+        <p>Chargement…</p>
+      </div>
+    </main>
+
+  </div><!-- end page-detail -->
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer" role="contentinfo">
+    <p>&copy; 2025 <strong>VillaNova</strong> — Agenda culturel de votre territoire. Données : <strong>OpenAgenda</strong>.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+</body>
+</html>
