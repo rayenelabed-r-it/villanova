@@ -1,4 +1,4 @@
-# VillaNova — Agenda Culturel
+# VillaNova 
 
 A lightweight, dependency-free cultural events agenda built with vanilla HTML, CSS (compiled from SCSS), and JavaScript. It displays events from the [OpenAgenda](https://openagenda.com) API and falls back gracefully to built-in demo data when no API credentials are configured.
 
