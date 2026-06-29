@@ -9,11 +9,696 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-CSSEOF
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-cat /mnt/user-data/uploads/styles.css | sed 's|/\*# sourceMappingURL=styles.css.map \*/||g' >> /mnt/user-data/outputs/index.html
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
 
-cat >> /mnt/user-data/outputs/index.html << 'HTMLEOF'
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fafafa;
+}
+
+a {
+  color: #26a96a;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+a:hover {
+  color: #1d7d4f;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+/* ─────────────────────────────────────────────
+   Utilities
+   ───────────────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1rem;
+  background: #26a96a;
+  color: white;
+  text-decoration: underline;
+}
+
+.skip-link:focus {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ─────────────────────────────────────────────
+   Layout
+   ───────────────────────────────────────────── */
+
+.page-wrapper {
+  display: none;
+}
+
+.page-wrapper.active {
+  display: block;
+}
+
+/* ─────────────────────────────────────────────
+   Header
+   ───────────────────────────────────────────── */
+
+.site-header {
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  transition: color 150ms ease;
+}
+
+.site-logo:hover {
+  color: #26a96a;
+}
+
+.site-logo span {
+  color: #f39c12;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.site-nav a {
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.site-nav a[aria-current="page"] {
+  background: #e8f5ed;
+  color: #26a96a;
+}
+
+/* ─────────────────────────────────────────────
+   Hero
+   ───────────────────────────────────────────── */
+
+.hero {
+  background: linear-gradient(135deg, #26a96a 0%, #1d7d4f 100%);
+  color: white;
+  padding: 4rem 1rem;
+}
+
+.hero__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero__eyebrow {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.hero__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero__subtitle {
+  font-size: 1rem;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .hero__title {
+    font-size: 1.75rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Filters
+   ───────────────────────────────────────────── */
+
+.filters {
+  background: white;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+}
+
+.filters__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filters__label {
+  font-weight: 600;
+  margin-right: 1rem;
+  display: inline-block;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.25rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 2rem;
+  background: white;
+  color: #333;
+  font-weight: 500;
+  transition: all 200ms ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  border-color: #26a96a;
+  color: #26a96a;
+}
+
+.filter-btn[aria-pressed="true"] {
+  background: #26a96a;
+  border-color: #26a96a;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    top: 50px;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .filters__inner {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .filters__label {
+    white-space: nowrap;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Events Section & Grid
+   ───────────────────────────────────────────── */
+
+.events-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.events-section__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* ─────────────────────────────────────────────
+   Event Card
+   ───────────────────────────────────────────── */
+
+.event-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 200ms ease;
+}
+
+.event-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.event-card__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.event-card__img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.event-card__img-wrap picture,
+.event-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.event-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+}
+
+.event-card__category {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #26a96a;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.event-card__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.event-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  color: #333;
+}
+
+.event-card__meta {
+  flex: 1;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.event-card__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.event-card__meta-row svg {
+  flex-shrink: 0;
+  color: #26a96a;
+}
+
+.event-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #26a96a;
+}
+
+.event-card__cta svg {
+  transition: transform 200ms ease;
+}
+
+.event-card__link:hover .event-card__cta svg {
+  transform: translateX(3px);
+}
+
+/* ─────────────────────────────────────────────
+   Status Messages & Skeleton
+   ───────────────────────────────────────────── */
+
+.status-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+}
+
+.status-message__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.status-message p {
+  margin: 0.5rem 0;
+}
+
+.spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #e5e5e5;
+  border-top-color: #26a96a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.skeleton-card {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.skeleton-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(90deg, #f0f0f0 0%, #e5e5e5 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-body {
+  padding: 1.5rem;
+}
+
+.skeleton-line {
+  height: 0.75rem;
+  background: linear-gradient(90deg, #f0f0f0 0%, #e5e5e5 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-line:last-child {
+  margin-bottom: 0;
+}
+
+.skeleton-line:nth-child(2) {
+  width: 80%;
+}
+
+.skeleton-line:nth-child(3) {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─────────────────────────────────────────────
+   Detail Page
+   ───────────────────────────────────────────── */
+
+.detail-back {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 0;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #26a96a;
+  font-weight: 600;
+  transition: all 200ms ease;
+}
+
+.back-btn:hover {
+  gap: 0.75rem;
+}
+
+.back-btn svg {
+  flex-shrink: 0;
+}
+
+.detail-hero {
+  width: 100%;
+  aspect-ratio: 16 / 5;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.detail-hero picture,
+.detail-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.detail-category {
+  background: #e8f5ed;
+  color: #26a96a;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.detail-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.detail-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 0.5rem;
+}
+
+.detail-meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detail-meta-item svg {
+  flex-shrink: 0;
+  color: #26a96a;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+}
+
+.detail-meta-item__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.detail-meta-item__value {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.detail-desc {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.detail-desc p {
+  margin-bottom: 1rem;
+}
+
+.detail-desc p:last-child {
+  margin-bottom: 0;
+}
+
+.detail-video {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.detail-video h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: #000;
+}
+
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─────────────────────────────────────────────
+   Footer
+   ───────────────────────────────────────────── */
+
+.site-footer {
+  background: #333;
+  color: #ccc;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+}
+
+.site-footer p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.site-footer strong {
+  color: white;
+}
+
+/* ─────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .site-header__inner {
+    padding: 0.75rem;
+  }
+
+  .site-logo {
+    font-size: 1.25rem;
+  }
+
+  .hero__title {
+    font-size: 1.75rem;
+  }
+
+  .hero__subtitle {
+    font-size: 0.875rem;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-title {
+    font-size: 1.75rem;
+  }
+
+  .detail-meta-grid {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .detail-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -77,7 +762,7 @@ cat >> /mnt/user-data/outputs/index.html << 'HTMLEOF'
   <div id="page-detail" class="page-wrapper" role="main">
     <div class="detail-back">
       <a href="#" class="back-btn" onclick="goBack(); return false;" id="back-btn" aria-label="Retour à la liste des événements">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
         Retour à la liste
       </a>
     </div>
@@ -176,12 +861,12 @@ function formatTime(iso) {
 
 function iconSvg(name) {
   const icons = {
-    calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
-    clock:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    location: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
-    ticket:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 010 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 010-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2v2z"/></svg>`,
-    arrow:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
-    back:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>`,
+    calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+    clock:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
+    location: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+    ticket:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"></path><path d="M16 9a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3V9z"></path></svg>`,
+    arrow:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`,
+    back:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>`,
   };
   return icons[name] || '';
 }
@@ -195,7 +880,7 @@ function getDemoEvents() {
     {
       uid: 'demo-1',
       title: { fr: 'Orchestre Philharmonique de Marseille — Soirée Beethoven' },
-      description: { fr: '<p>Une soirée exceptionnelle autour des plus belles œuvres de Beethoven, interprétée par l\'Orchestre Philharmonique de Marseille sous la direction du maestro Giovanni Allevi.</p><p>Programme : Symphonie n°5, Concerto pour piano n°3, Ouverture Coriolan.</p>' },
+      description: { fr: '<p>Une soirée exceptionnelle autour des plus belles œuvres de Beethoven, interprétée par l\'Orchestre Philharmonique de Marseille sous la direction du maestro Giovanni Antonini.</p><p>Au programme : Symphonie n°5, Clair de lune arrangé pour orchestre, et des sonates revisitées.</p>' },
       dateRange: { fr: '14 juillet 2025' },
       firstTiming: { begin: '2025-07-14T20:30:00', end: '2025-07-14T23:00:00' },
       location: { name: 'Opéra de Marseille', city: 'Marseille', address: '2 Rue Molière, 13001' },
@@ -206,7 +891,7 @@ function getDemoEvents() {
     {
       uid: 'demo-2',
       title: { fr: 'Exposition — Lumières de la Méditerranée' },
-      description: { fr: '<p>Plongez dans une exposition immersive célébrant les artistes de la Méditerranée : peintures, sculptures et installations numériques.</p><p>Œuvres de plus de 40 artistes contemporains issus de 12 pays riverains.</p>' },
+      description: { fr: '<p>Plongez dans une exposition immersive célébrant les artistes de la Méditerranée : peintures, sculptures et installations numériques.</p><p>Œuvres de plus de 40 artistes contemporains du pourtour méditerranéen.</p>' },
       dateRange: { fr: 'Du 1er juin au 31 août 2025' },
       firstTiming: { begin: '2025-06-01T10:00:00', end: '2025-08-31T18:00:00' },
       location: { name: 'MuCEM', city: 'Marseille', address: '7 Promenade Robert Laffont, 13002' },
@@ -217,7 +902,7 @@ function getDemoEvents() {
     {
       uid: 'demo-3',
       title: { fr: 'Festival Jazz des Cinq Continents' },
-      description: { fr: '<p>Rendez-vous incontournable des amateurs de jazz, le Festival des Cinq Continents accueille cette année des artistes de renom venus du monde entier pour des concerts en plein air dans les jardins du Palais Longchamp.</p>' },
+      description: { fr: '<p>Rendez-vous incontournable des amateurs de jazz, le Festival des Cinq Continents accueille cette année des artistes de renom venus du monde entier pour des concerts enflammés.</p><p>Une semaine de musique, de passions et de découvertes.</p>' },
       dateRange: { fr: '18–26 juillet 2025' },
       firstTiming: { begin: '2025-07-18T19:00:00', end: '2025-07-26T23:30:00' },
       location: { name: 'Palais Longchamp', city: 'Marseille', address: 'Boulevard du Jardin Zoologique, 13004' },
@@ -228,7 +913,7 @@ function getDemoEvents() {
     {
       uid: 'demo-4',
       title: { fr: 'Spectacle jeune public — Les Aventures d\'Ulysse' },
-      description: { fr: '<p>Un spectacle épique et coloré qui emmène les enfants dans les aventures mythologiques d\'Ulysse. Avec marionnettes géantes, musique live et jeux de lumières.</p>' },
+      description: { fr: '<p>Un spectacle épique et coloré qui emmène les enfants dans les aventures mythologiques d\'Ulysse. Avec marionnettes géantes, musique live et jeux de lumières.</p><p>Conseillé à partir de 4 ans.</p>' },
       dateRange: { fr: '5–20 juillet 2025' },
       firstTiming: { begin: '2025-07-05T14:30:00', end: '2025-07-05T15:45:00' },
       location: { name: 'Théâtre Massalia', city: 'Marseille', address: '41 Rue Jobin, 13003' },
@@ -239,7 +924,7 @@ function getDemoEvents() {
     {
       uid: 'demo-5',
       title: { fr: 'Atelier poterie — Introduction à la céramique' },
-      description: { fr: '<p>Découvrez les secrets de la poterie lors d\'un atelier convivial animé par des céramistes professionnels. Initiez-vous au tournage, au modelage et à l\'émaillage. Toutes les pièces seront cuites et à récupérer deux semaines plus tard.</p>' },
+      description: { fr: '<p>Découvrez les secrets de la poterie lors d\'un atelier convivial animé par des céramistes professionnels. Initiez-vous au tournage, au modelage et à l\'émaillage.</p><p>Matériaux fournis. Capacité limitée à 10 personnes.</p>' },
       dateRange: { fr: 'Tous les samedis de juillet' },
       firstTiming: { begin: '2025-07-05T10:00:00', end: '2025-07-05T12:30:00' },
       location: { name: 'La Friche Belle de Mai', city: 'Marseille', address: '41 Rue Jobin, 13003' },
@@ -250,7 +935,7 @@ function getDemoEvents() {
     {
       uid: 'demo-6',
       title: { fr: 'Théâtre — Cyrano de Bergerac' },
-      description: { fr: '<p>La pièce emblématique d\'Edmond Rostand revisitée par la compagnie Nomade. Un Cyrano moderne, drôle, émouvant et surprenant, dans une mise en scène audacieuse qui alterne prose contemporaine et alexandrins d\'époque.</p>' },
+      description: { fr: '<p>La pièce emblématique d\'Edmond Rostand revisitée par la compagnie Nomade. Un Cyrano moderne, drôle, émouvant et surprenant, dans une mise en scène audacieuse qui séduira les amateurs de théâtre classique.</p>' },
       dateRange: { fr: '10–15 août 2025' },
       firstTiming: { begin: '2025-08-10T21:00:00', end: '2025-08-10T23:15:00' },
       location: { name: 'Théâtre du Gymnase', city: 'Marseille', address: '4 Rue du Théâtre Français, 13001' },
