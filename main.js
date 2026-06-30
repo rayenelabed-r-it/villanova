@@ -2,14 +2,13 @@
 
 // ─────────────────────────────────────────────
 // VILLANOVA — Agenda Culturel
-// main.js
+// js/main.js
 // ─────────────────────────────────────────────
 
 // ── Config
-// Remplacer par vos identifiants OpenAgenda
+// Les identifiants sont fournis par js/config.js (window.VILLANOVA_CONFIG),
+// chargé AVANT ce script dans index.html.
 // IMPORTANT: Ne commitez jamais vos clés privées dans le dépôt.
-// Cette application cherche automatiquement une configuration fournie
-// par un fichier `js/config.js` qui définit `window.VILLANOVA_CONFIG`.
 
 let API_KEY    = '';
 let AGENDA_UID = '';
@@ -19,9 +18,13 @@ try {
   if (typeof window !== 'undefined' && window.VILLANOVA_CONFIG) {
     if (typeof window.VILLANOVA_CONFIG.API_KEY === 'string') API_KEY = window.VILLANOVA_CONFIG.API_KEY;
     if (typeof window.VILLANOVA_CONFIG.AGENDA_UID === 'string') AGENDA_UID = window.VILLANOVA_CONFIG.AGENDA_UID;
+  } else {
+    console.warn('[VillaNova] window.VILLANOVA_CONFIG est introuvable. ' +
+      'Vérifiez que js/config.js est bien chargé AVANT js/main.js dans index.html. ' +
+      'L\'application va utiliser les données de démonstration.');
   }
 } catch (e) {
-  // silent fallback
+  console.error('[VillaNova] Erreur lors du chargement de la configuration:', e);
 }
 
 // ── État global
@@ -93,12 +96,12 @@ function formatTime(iso) {
 
 function iconSvg(name) {
   const icons = {
-    calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" wi[...]`,
-    clock:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="[...]`,
-    location: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-[...]`,
-    ticket:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 [...]]>`,
-    arrow:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="1[...]`,
-    back:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="[...]`,
+    calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+    clock:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
+    location: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+    ticket:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path><line x1="13" y1="5" x2="13" y2="19"></line></svg>`,
+    arrow:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`,
+    back:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>`,
   };
   return icons[name] || '';
 }
@@ -112,7 +115,7 @@ function getDemoEvents() {
     {
       uid: 'demo-1',
       title: { fr: 'Orchestre Philharmonique de Marseille — Soirée Beethoven' },
-      description: { fr: '<p>Une soirée exceptionnelle autour des plus belles œuvres de Beethoven, interprétée par l\'Orchestre Philharmonique de Marseille sous la direction du maestro Giovanni Al[...]' },
+      description: { fr: '<p>Une soirée exceptionnelle autour des plus belles œuvres de Beethoven, interprétée par l\'Orchestre Philharmonique de Marseille sous la direction du maestro Giovanni Alberti.</p><p>Au programme : la Symphonie n°5 et le Concerto pour violon en ré majeur.</p>' },
       dateRange: { fr: '14 juillet 2025' },
       firstTiming: { begin: '2025-07-14T20:30:00', end: '2025-07-14T23:00:00' },
       location: { name: 'Opéra de Marseille', city: 'Marseille', address: '2 Rue Molière, 13001' },
@@ -123,7 +126,7 @@ function getDemoEvents() {
     {
       uid: 'demo-2',
       title: { fr: 'Exposition — Lumières de la Méditerranée' },
-      description: { fr: '<p>Plongez dans une exposition immersive célébrant les artistes de la Méditerranée : peintures, sculptures et installations numériques.</p><p>Œuvres de plus de 40 artis[...]' },
+      description: { fr: '<p>Plongez dans une exposition immersive célébrant les artistes de la Méditerranée : peintures, sculptures et installations numériques.</p><p>Œuvres de plus de 40 artistes contemporains.</p>' },
       dateRange: { fr: 'Du 1er juin au 31 août 2025' },
       firstTiming: { begin: '2025-06-01T10:00:00', end: '2025-08-31T18:00:00' },
       location: { name: 'MuCEM', city: 'Marseille', address: '7 Promenade Robert Laffont, 13002' },
@@ -134,7 +137,7 @@ function getDemoEvents() {
     {
       uid: 'demo-3',
       title: { fr: 'Festival Jazz des Cinq Continents' },
-      description: { fr: '<p>Rendez-vous incontournable des amateurs de jazz, le Festival des Cinq Continents accueille cette année des artistes de renom venus du monde entier pour des concerts en pl[...]' },
+      description: { fr: '<p>Rendez-vous incontournable des amateurs de jazz, le Festival des Cinq Continents accueille cette année des artistes de renom venus du monde entier pour des concerts en plein air.</p>' },
       dateRange: { fr: '18–26 juillet 2025' },
       firstTiming: { begin: '2025-07-18T19:00:00', end: '2025-07-26T23:30:00' },
       location: { name: 'Palais Longchamp', city: 'Marseille', address: 'Boulevard du Jardin Zoologique, 13004' },
@@ -156,7 +159,7 @@ function getDemoEvents() {
     {
       uid: 'demo-5',
       title: { fr: 'Atelier poterie — Introduction à la céramique' },
-      description: { fr: '<p>Découvrez les secrets de la poterie lors d\'un atelier convivial animé par des céramistes professionnels. Initiez-vous au tournage, au modelage et à l\'émaillage. Tou[...]' },
+      description: { fr: '<p>Découvrez les secrets de la poterie lors d\'un atelier convivial animé par des céramistes professionnels. Initiez-vous au tournage, au modelage et à l\'émaillage.</p>' },
       dateRange: { fr: 'Tous les samedis de juillet' },
       firstTiming: { begin: '2025-07-05T10:00:00', end: '2025-07-05T12:30:00' },
       location: { name: 'La Friche Belle de Mai', city: 'Marseille', address: '41 Rue Jobin, 13003' },
@@ -167,7 +170,7 @@ function getDemoEvents() {
     {
       uid: 'demo-6',
       title: { fr: 'Théâtre — Cyrano de Bergerac' },
-      description: { fr: '<p>La pièce emblématique d\'Edmond Rostand revisitée par la compagnie Nomade. Un Cyrano moderne, drôle, émouvant et surprenant, dans une mise en scène audacieuse qui al[...]' },
+      description: { fr: '<p>La pièce emblématique d\'Edmond Rostand revisitée par la compagnie Nomade. Un Cyrano moderne, drôle, émouvant et surprenant, dans une mise en scène audacieuse.</p>' },
       dateRange: { fr: '10–15 août 2025' },
       firstTiming: { begin: '2025-08-10T21:00:00', end: '2025-08-10T23:15:00' },
       location: { name: 'Théâtre du Gymnase', city: 'Marseille', address: '4 Rue du Théâtre Français, 13001' },
@@ -183,18 +186,49 @@ function getDemoEvents() {
 // ─────────────────────────────────────────────
 
 async function fetchEvents() {
-  if (!API_KEY || !AGENDA_UID) return getDemoEvents();
+  if (!API_KEY || !AGENDA_UID) {
+    console.info('[VillaNova] Pas de clé API / UID configurés — utilisation des données de démo.');
+    return getDemoEvents();
+  }
 
   const url = new URL(`https://api.openagenda.com/v2/agendas/${AGENDA_UID}/events`);
   url.searchParams.set('key', API_KEY);
   url.searchParams.set('size', '24');
   url.searchParams.set('sort', 'timingsWithAggregations.start.asc');
-  url.searchParams.set('timings[gte]', new Date().toISOString());
+  // OpenAgenda attend un format date simple (YYYY-MM-DD) pour ce filtre,
+  // pas un timestamp ISO complet avec heure/millisecondes.
+  url.searchParams.set('timings[gte]', new Date().toISOString().slice(0, 10));
 
-  const res = await fetch(url.toString());
-  if (!res.ok) throw new Error(`Erreur API: ${res.status}`);
+  let res;
+  try {
+    res = await fetch(url.toString());
+  } catch (networkErr) {
+    console.error('[VillaNova] Erreur réseau lors de l\'appel à OpenAgenda:', networkErr);
+    throw new Error('Impossible de joindre l\'API OpenAgenda (problème réseau ou CORS).');
+  }
+
+  if (!res.ok) {
+    // On essaie de lire le corps de la réponse pour avoir le vrai message d'erreur de l'API
+    let body = '';
+    try { body = await res.text(); } catch { /* ignore */ }
+    console.error(`[VillaNova] Erreur API OpenAgenda (${res.status}):`, body);
+
+    if (res.status === 401 || res.status === 403) {
+      throw new Error('Clé API invalide ou non autorisée. Vérifiez que vous utilisez bien la clé PUBLIQUE (pas la clé privée), et qu\'elle est active.');
+    }
+    if (res.status === 404) {
+      throw new Error('Agenda introuvable. Vérifiez l\'AGENDA_UID (identifiant numérique, pas le slug texte de l\'URL).');
+    }
+    throw new Error(`Erreur API OpenAgenda : ${res.status}`);
+  }
 
   const data = await res.json();
+
+  if (!data.events || data.events.length === 0) {
+    console.warn('[VillaNova] L\'API a répondu correctement mais sans événement à venir. ' +
+      'Vérifiez que des événements publiés existent sur cet agenda avec une date future.');
+  }
+
   return (data.events || []).map(normalizeEvent);
 }
 
@@ -518,7 +552,7 @@ async function init() {
       <div class="status-message" role="alert">
         <div class="status-message__icon" aria-hidden="true">⚠️</div>
         <p><strong>Impossible de charger les événements.</strong></p>
-        <p>Vérifiez votre connexion ou réessayez dans quelques instants.</p>
+        <p>${err?.message ? err.message : 'Vérifiez votre connexion ou réessayez dans quelques instants.'}</p>
         <button class="filter-btn" style="margin-top:1rem" onclick="init()">Réessayer</button>
       </div>`;
     announce('Erreur : impossible de charger les événements. Veuillez réessayer.');
