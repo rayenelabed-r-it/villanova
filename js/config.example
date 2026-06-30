@@ -1,0 +1,12 @@
+// js/config.example
+// Exemple de configuration locale pour VillaNova.
+// Ne commitez PAS vos vraies clés dans le dépôt public.
+// Copiez ce fichier en `js/config.js` et remplissez les valeurs.
+
+window.VILLANOVA_CONFIG = {
+  // Clé publique OpenAgenda (format : chaîne)
+  API_KEY: 'YOUR_PUBLIC_OPENAGENDA_KEY',
+
+  // UID de votre agenda (trouvable dans l'URL d'administration)
+  AGENDA_UID: 'YOUR_AGENDA_UID'
+};
