@@ -87,7 +87,7 @@ button:focus {
 
 /* ─────────────────────────────────────────────
    Layout
-   ────────────────────────��──────────────────── */
+   ───────────────────────────────────────────── */
 
 .page-wrapper {
   display: none;
@@ -126,6 +126,8 @@ button:focus {
   transition: color 150ms ease;
   display: inline-block;
   cursor: pointer;
+  background: none;
+  padding: 0;
 }
 
 .site-logo:hover {
@@ -147,15 +149,28 @@ button:focus {
   align-items: center;
 }
 
-.site-nav a {
+.site-nav__link {
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   display: inline-block;
   cursor: pointer;
+  background: white;
+  color: #333;
+  transition: all 150ms ease;
 }
 
-.site-nav a[aria-current="page"] {
+.site-nav__link:hover {
+  color: #26a96a;
+  background: #f0f0f0;
+}
+
+.site-nav__link:focus {
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
+}
+
+.site-nav__link[aria-current="page"] {
   background: #e8f5ed;
   color: #26a96a;
 }
@@ -212,7 +227,7 @@ button:focus {
 
 /* ─────────────────────────────────────────────
    Filters
-   ─��─────────────────────────────────────────── */
+   ───────────────────────────────────────────── */
 
 .filters {
   background: white;
@@ -249,9 +264,6 @@ button:focus {
 .filter-btn:focus {
   border-color: #26a96a;
   color: #26a96a;
-}
-
-.filter-btn:focus {
   outline: 2px solid #26a96a;
   outline-offset: 2px;
 }
@@ -338,7 +350,8 @@ button:focus {
 }
 
 .event-card__link:focus {
-  outline: none;
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
 }
 
 .event-card__img-wrap {
@@ -519,7 +532,7 @@ button:focus {
 
 /* ─────────────────────────────────────────────
    Detail Page
-   ───────────────────────────────────────────���─ */
+   ───────────────────────────────────────────── */
 
 .detail-back {
   max-width: 1200px;
@@ -535,14 +548,13 @@ button:focus {
   font-weight: 600;
   transition: all 200ms ease;
   cursor: pointer;
+  background: none;
+  padding: 0;
 }
 
 .back-btn:hover,
 .back-btn:focus {
   gap: 0.75rem;
-}
-
-.back-btn:focus {
   outline: 2px solid #26a96a;
   outline-offset: 2px;
 }
@@ -833,7 +845,7 @@ button:focus {
 // ─────────────────────────────────────────────
 // VILLANOVA — Agenda Culturel
 // main.js
-// ──────────────────────────────���──────────────
+// ─────────────────────────────────────────────
 
 // ── Config
 // Remplacer par vos identifiants OpenAgenda
