@@ -1,0 +1,3 @@
+/js/config.js
+# Ignore local configuration containing API keys
+# Add other local ignores below
