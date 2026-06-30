@@ -33,14 +33,27 @@ a {
   transition: color 150ms ease;
 }
 
-a:hover {
+a:hover,
+a:focus {
   color: #1d7d4f;
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
+}
+
+a:focus {
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
+}
+
+button:focus {
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
 }
 
 /* ─────────────────────────────────────────────
@@ -74,7 +87,7 @@ button {
 
 /* ─────────────────────────────────────────────
    Layout
-   ───────────────────────────────────────────── */
+   ────────────────────────��──────────────────── */
 
 .page-wrapper {
   display: none;
@@ -111,10 +124,17 @@ button {
   font-weight: 600;
   color: #333;
   transition: color 150ms ease;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .site-logo:hover {
   color: #26a96a;
+}
+
+.site-logo:focus {
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
 }
 
 .site-logo span {
@@ -131,6 +151,8 @@ button {
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .site-nav a[aria-current="page"] {
@@ -190,7 +212,7 @@ button {
 
 /* ─────────────────────────────────────────────
    Filters
-   ───────────────────────────────────────────── */
+   ─��─────────────────────────────────────────── */
 
 .filters {
   background: white;
@@ -223,9 +245,15 @@ button {
   white-space: nowrap;
 }
 
-.filter-btn:hover {
+.filter-btn:hover,
+.filter-btn:focus {
   border-color: #26a96a;
   color: #26a96a;
+}
+
+.filter-btn:focus {
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
 }
 
 .filter-btn[aria-pressed="true"] {
@@ -288,7 +316,8 @@ button {
   transition: all 200ms ease;
 }
 
-.event-card:hover {
+.event-card:hover,
+.event-card:focus-within {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
 }
@@ -299,6 +328,17 @@ button {
   height: 100%;
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+}
+
+.event-card__link:focus {
+  outline: none;
 }
 
 .event-card__img-wrap {
@@ -388,7 +428,8 @@ button {
   transition: transform 200ms ease;
 }
 
-.event-card__link:hover .event-card__cta svg {
+.event-card__link:hover .event-card__cta svg,
+.event-card__link:focus .event-card__cta svg {
   transform: translateX(3px);
 }
 
@@ -478,7 +519,7 @@ button {
 
 /* ─────────────────────────────────────────────
    Detail Page
-   ───────────────────────────────────────────── */
+   ───────────────────────────────────────────���─ */
 
 .detail-back {
   max-width: 1200px;
@@ -493,10 +534,17 @@ button {
   color: #26a96a;
   font-weight: 600;
   transition: all 200ms ease;
+  cursor: pointer;
 }
 
-.back-btn:hover {
+.back-btn:hover,
+.back-btn:focus {
   gap: 0.75rem;
+}
+
+.back-btn:focus {
+  outline: 2px solid #26a96a;
+  outline-offset: 2px;
 }
 
 .back-btn svg {
@@ -708,11 +756,11 @@ button {
 
   <header class="site-header" role="banner">
     <div class="site-header__inner">
-      <a href="#" class="site-logo" onclick="showPage('home'); return false;" aria-label="VillaNova — Retour à l'accueil">
+      <button class="site-logo" onclick="showPage('home')" aria-label="VillaNova — Retour à l'accueil">
         Villa<span>Nova</span>
-      </a>
+      </button>
       <nav class="site-nav" aria-label="Navigation principale">
-        <a href="#" onclick="showPage('home'); return false;" id="nav-home" aria-current="page">Agenda</a>
+        <button class="site-nav__link" onclick="showPage('home')" id="nav-home" aria-current="page">Agenda</button>
       </nav>
     </div>
   </header>
@@ -761,10 +809,10 @@ button {
 
   <div id="page-detail" class="page-wrapper" role="main">
     <div class="detail-back">
-      <a href="#" class="back-btn" onclick="goBack(); return false;" id="back-btn" aria-label="Retour à la liste des événements">
+      <button class="back-btn" onclick="goBack()" id="back-btn" aria-label="Retour à la liste des événements">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
         Retour à la liste
-      </a>
+      </button>
     </div>
     <div id="detail-hero-img" class="detail-hero" aria-hidden="true"></div>
     <main id="detail-main" class="detail-content" aria-busy="true">
@@ -785,7 +833,7 @@ button {
 // ─────────────────────────────────────────────
 // VILLANOVA — Agenda Culturel
 // main.js
-// ─────────────────────────────────────────────
+// ──────────────────────────────���──────────────
 
 // ── Config
 // Remplacer par vos identifiants OpenAgenda
@@ -1023,11 +1071,10 @@ function buildEventCard(ev) {
   const article = document.createElement('article');
   article.className = 'event-card';
 
-  const a = document.createElement('a');
-  a.href = '#event-' + ev.uid;
-  a.className = 'event-card__link';
-  a.setAttribute('aria-label', 'Voir les détails : ' + (ev.title?.fr || 'Événement'));
-  a.addEventListener('click', e => { e.preventDefault(); openDetail(ev.uid); });
+  const btn = document.createElement('button');
+  btn.className = 'event-card__link';
+  btn.setAttribute('aria-label', 'Voir les détails : ' + (ev.title?.fr || 'Événement'));
+  btn.addEventListener('click', () => { openDetail(ev.uid); });
 
   // Image
   const imgWrap = document.createElement('div');
@@ -1100,9 +1147,9 @@ function buildEventCard(ev) {
   cta.innerHTML = 'Voir l\'événement ' + iconSvg('arrow');
   body.appendChild(cta);
 
-  a.appendChild(imgWrap);
-  a.appendChild(body);
-  article.appendChild(a);
+  btn.appendChild(imgWrap);
+  btn.appendChild(body);
+  article.appendChild(btn);
   return article;
 }
 
@@ -1205,7 +1252,7 @@ function renderDetail(ev) {
   if (ev.description?.fr) {
     const desc = document.createElement('div');
     desc.className = 'detail-desc';
-    desc.innerHTML = ev.description.fr; // HTML éditorial de l'API OpenAgenda
+    desc.innerHTML = ev.description.fr;
     main.appendChild(desc);
   }
 
@@ -1297,6 +1344,7 @@ window.showPage  = showPage;
 window.goBack    = goBack;
 window.setFilter = setFilter;
 window.init      = init;
+window.openDetail = openDetail;
 
 init();
   </script>
