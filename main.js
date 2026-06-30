@@ -7,8 +7,22 @@
 
 // ── Config
 // Remplacer par vos identifiants OpenAgenda
-const API_KEY    = '';
-const AGENDA_UID = '';
+// IMPORTANT: Ne commitez jamais vos clés privées dans le dépôt.
+// Cette application cherche automatiquement une configuration fournie
+// par un fichier `js/config.js` qui définit `window.VILLANOVA_CONFIG`.
+
+let API_KEY    = '';
+let AGENDA_UID = '';
+
+// Charger la configuration si elle a été fournie par js/config.js
+try {
+  if (typeof window !== 'undefined' && window.VILLANOVA_CONFIG) {
+    if (typeof window.VILLANOVA_CONFIG.API_KEY === 'string') API_KEY = window.VILLANOVA_CONFIG.API_KEY;
+    if (typeof window.VILLANOVA_CONFIG.AGENDA_UID === 'string') AGENDA_UID = window.VILLANOVA_CONFIG.AGENDA_UID;
+  }
+} catch (e) {
+  // silent fallback
+}
 
 // ── État global
 let allEvents     = [];
@@ -79,12 +93,12 @@ function formatTime(iso) {
 
 function iconSvg(name) {
   const icons = {
-    calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
-    clock:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    location: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
-    ticket:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 010 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 010-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2v2z"/></svg>`,
-    arrow:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
-    back:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>`,
+    calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" wi[...]`,
+    clock:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="[...]`,
+    location: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-[...]`,
+    ticket:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 [...]]>`,
+    arrow:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="1[...]`,
+    back:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="[...]`,
   };
   return icons[name] || '';
 }
@@ -98,7 +112,7 @@ function getDemoEvents() {
     {
       uid: 'demo-1',
       title: { fr: 'Orchestre Philharmonique de Marseille — Soirée Beethoven' },
-      description: { fr: '<p>Une soirée exceptionnelle autour des plus belles œuvres de Beethoven, interprétée par l\'Orchestre Philharmonique de Marseille sous la direction du maestro Giovanni Allevi.</p><p>Programme : Symphonie n°5, Concerto pour piano n°3, Ouverture Coriolan.</p>' },
+      description: { fr: '<p>Une soirée exceptionnelle autour des plus belles œuvres de Beethoven, interprétée par l\'Orchestre Philharmonique de Marseille sous la direction du maestro Giovanni Al[...]' },
       dateRange: { fr: '14 juillet 2025' },
       firstTiming: { begin: '2025-07-14T20:30:00', end: '2025-07-14T23:00:00' },
       location: { name: 'Opéra de Marseille', city: 'Marseille', address: '2 Rue Molière, 13001' },
@@ -109,7 +123,7 @@ function getDemoEvents() {
     {
       uid: 'demo-2',
       title: { fr: 'Exposition — Lumières de la Méditerranée' },
-      description: { fr: '<p>Plongez dans une exposition immersive célébrant les artistes de la Méditerranée : peintures, sculptures et installations numériques.</p><p>Œuvres de plus de 40 artistes contemporains issus de 12 pays riverains.</p>' },
+      description: { fr: '<p>Plongez dans une exposition immersive célébrant les artistes de la Méditerranée : peintures, sculptures et installations numériques.</p><p>Œuvres de plus de 40 artis[...]' },
       dateRange: { fr: 'Du 1er juin au 31 août 2025' },
       firstTiming: { begin: '2025-06-01T10:00:00', end: '2025-08-31T18:00:00' },
       location: { name: 'MuCEM', city: 'Marseille', address: '7 Promenade Robert Laffont, 13002' },
@@ -120,7 +134,7 @@ function getDemoEvents() {
     {
       uid: 'demo-3',
       title: { fr: 'Festival Jazz des Cinq Continents' },
-      description: { fr: '<p>Rendez-vous incontournable des amateurs de jazz, le Festival des Cinq Continents accueille cette année des artistes de renom venus du monde entier pour des concerts en plein air dans les jardins du Palais Longchamp.</p>' },
+      description: { fr: '<p>Rendez-vous incontournable des amateurs de jazz, le Festival des Cinq Continents accueille cette année des artistes de renom venus du monde entier pour des concerts en pl[...]' },
       dateRange: { fr: '18–26 juillet 2025' },
       firstTiming: { begin: '2025-07-18T19:00:00', end: '2025-07-26T23:30:00' },
       location: { name: 'Palais Longchamp', city: 'Marseille', address: 'Boulevard du Jardin Zoologique, 13004' },
@@ -142,7 +156,7 @@ function getDemoEvents() {
     {
       uid: 'demo-5',
       title: { fr: 'Atelier poterie — Introduction à la céramique' },
-      description: { fr: '<p>Découvrez les secrets de la poterie lors d\'un atelier convivial animé par des céramistes professionnels. Initiez-vous au tournage, au modelage et à l\'émaillage. Toutes les pièces seront cuites et à récupérer deux semaines plus tard.</p>' },
+      description: { fr: '<p>Découvrez les secrets de la poterie lors d\'un atelier convivial animé par des céramistes professionnels. Initiez-vous au tournage, au modelage et à l\'émaillage. Tou[...]' },
       dateRange: { fr: 'Tous les samedis de juillet' },
       firstTiming: { begin: '2025-07-05T10:00:00', end: '2025-07-05T12:30:00' },
       location: { name: 'La Friche Belle de Mai', city: 'Marseille', address: '41 Rue Jobin, 13003' },
@@ -153,7 +167,7 @@ function getDemoEvents() {
     {
       uid: 'demo-6',
       title: { fr: 'Théâtre — Cyrano de Bergerac' },
-      description: { fr: '<p>La pièce emblématique d\'Edmond Rostand revisitée par la compagnie Nomade. Un Cyrano moderne, drôle, émouvant et surprenant, dans une mise en scène audacieuse qui alterne prose contemporaine et alexandrins d\'époque.</p>' },
+      description: { fr: '<p>La pièce emblématique d\'Edmond Rostand revisitée par la compagnie Nomade. Un Cyrano moderne, drôle, émouvant et surprenant, dans une mise en scène audacieuse qui al[...]' },
       dateRange: { fr: '10–15 août 2025' },
       firstTiming: { begin: '2025-08-10T21:00:00', end: '2025-08-10T23:15:00' },
       location: { name: 'Théâtre du Gymnase', city: 'Marseille', address: '4 Rue du Théâtre Français, 13001' },
@@ -198,6 +212,7 @@ function normalizeEvent(ev) {
     conditions:  { fr: ev.conditions?.fr || 'Voir détails' },
   };
 }
+
 
 
 // ── Rendu — liste des événements
